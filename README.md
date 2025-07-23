@@ -35,6 +35,10 @@ Este projeto automatiza a coleta de ofertas promocionais da Shopee, gera imagens
    Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--remote-debugging-port=9222", "--user-data-dir=C:\temp\chrome_debug"
    ```
 
+   ```linux 
+   google-chrome --remote-debugging-port=9222 --user-data-dir=/tmp/chrome_debug
+   
+   ```
 ---
 
 ## 🚀 Como Executar

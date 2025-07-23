@@ -1,51 +1,44 @@
 import json
-from datetime import datetime
-import os
+from pathlib import Path
 import threading
 
+# === Caminhos organizados ===
+BASE_DIR = Path(__file__).parent
+PASTA_DADOS = BASE_DIR / "dados"
+ARQUIVO_JSON = PASTA_DADOS / "produtos_promocao.json"
+PASTA_IMAGENS = PASTA_DADOS / "imagem"
+
+# === Funções ===
 def criar_pasta_imagens():
-    """Cria a pasta 'imagem' se não existir"""
-    if not os.path.exists('imagem'):
-        os.makedirs('imagem')
-        print("📂 Pasta 'imagem' criada com sucesso!")
+    """Cria a pasta 'dados/imagem' se não existir"""
+    PASTA_IMAGENS.mkdir(parents=True, exist_ok=True)
+    print("📂 Pasta 'dados/imagem' verificada/criada.")
 
 def gerar_anuncio(produto):
     """Gera um anúncio com emojis e formatação melhorada"""
-    # Extrai o preço atual e original
-    preco_atual = produto['preco'].split(' ')[0]  # Pega o primeiro valor (R$XX.XX)
+    preco_atual = produto['preco'].split(' ')[0]
     preco_original = produto['preco'].split('de ')[1].replace(')', '') if 'de' in produto['preco'] else ''
     
-    # Formata o anúncio com emojis
-    anuncio = (
-        f"🛍️ {produto['nome']}\n"
-        f"\n"
-    )
-    
+    anuncio = f"🛍️ {produto['nome']}\n\n"
     if preco_original:
         anuncio += f"de: ~{preco_original}~\n"
-    
     anuncio += (
-        f"💸 Por: {preco_atual} 🔥\n"
-       # f"{produto['vendas']}\n"
-       # f"Avaliação: {produto['avaliacao']} ⭐ \n\n"
-        f"\n"
-        f"👉 Link para comprar: {produto['link']}\n"
-        f"\n"
-        f"_*Promoção sujeita a alteração a qualquer momento*_\n" 
+        f"💸 Por: {preco_atual} 🔥\n\n"
+        f"👉 Link para comprar: {produto['link']}\n\n"
+        f"_*Promoção sujeita a alteração a qualquer momento*_"
     )
-    
     return anuncio
 
 def salvar_anuncios(produtos):
-    """Salva todos os anúncios em arquivos na pasta 'imagem'"""
+    """Salva os anúncios em arquivos .txt na pasta dados/imagem"""
     criar_pasta_imagens()
     
     for i, produto in enumerate(produtos, 1):
-        nome_arquivo = f"imagem/anuncio_{i}.txt"
+        nome_arquivo = PASTA_IMAGENS / f"anuncio_{i}.txt"
         with open(nome_arquivo, "w", encoding="utf-8") as f:
             f.write(gerar_anuncio(produto))
     
-    print(f"💾 {len(produtos)} anúncios salvos na pasta 'imagem'")
+    print(f"💾 {len(produtos)} anúncios salvos em '{PASTA_IMAGENS}'")
 
 def mostrar_exemplo(produto):
     """Mostra um exemplo de anúncio no console"""
@@ -54,7 +47,6 @@ def mostrar_exemplo(produto):
     print("═" * 50 + "\n")
     print(gerar_anuncio(produto))
     print("\n" + "═" * 50)
-
 
 def input_com_timeout(prompt, timeout, default):
     """Função que retorna input com valor padrão após timeout"""
@@ -74,21 +66,32 @@ def input_com_timeout(prompt, timeout, default):
     t.join(timeout)
     return result[0]
 
-# Carrega os produtos
-try:
-    with open("produtos_promocao.json", "r", encoding="utf-8") as f:
-        produtos = json.load(f)
-    
-    if produtos:
-        mostrar_exemplo(produtos[0])
-        resposta = input_com_timeout("\nGerar anúncios para todos os produtos? (s/n) [Padrão: s]: ", 5, "s").lower()
-        if resposta == 's':
-            salvar_anuncios(produtos)
-            print("\n✅ Anúncios prontos na pasta 'imagem'!")
-    else:
-        print("Nenhum produto encontrado no arquivo.")
+# === Execução principal ===
+if __name__ == "__main__":
+    try:
+        with open(ARQUIVO_JSON, "r", encoding="utf-8") as f:
+            produtos = json.load(f)
 
-except FileNotFoundError:
-    print("❌ Arquivo 'produtos_promocao.json' não encontrado")
-except Exception as e:
-    print(f"❌ Erro: {e}")
+        if produtos:
+            mostrar_exemplo(produtos[0])
+
+            import sys
+            modo_automatico = "--auto" in sys.argv
+
+            if modo_automatico:
+                resposta = "s"
+            else:
+                resposta = input_com_timeout(
+                    "\nGerar anúncios para todos os produtos? (s/n) [Padrão: s]: ",
+                    5, "s"
+                ).lower()
+
+            if resposta == 's':
+                salvar_anuncios(produtos)
+                print("\n✅ Anúncios prontos na pasta 'dados/imagem/'!")
+        else:
+            print("Nenhum produto encontrado no arquivo.")
+    except FileNotFoundError:
+        print(f"❌ Arquivo '{ARQUIVO_JSON.name}' não encontrado em {ARQUIVO_JSON.parent}")
+    except Exception as e:
+        print(f"❌ Erro: {e}")

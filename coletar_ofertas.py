@@ -4,18 +4,24 @@ import time
 import hashlib
 import threading
 import sys
+from pathlib import Path
 
-# Configurações
+# === CONFIGURAÇÕES ===
 APP_ID = "18341780685"
 APP_SECRET = "FW3M3FW3EJDVSQBLQA7FVIHEBHDEYDES"
 ENDPOINT = "https://open-api.affiliate.shopee.com.br/graphql"
-JSON_SAIDA = "produtos_promocao.json"
 MAX_POR_PAGINA = 20
 
-# --- Funções utilitárias ---
+# Diretório de saída
+BASE_DIR = Path(__file__).parent
+PASTA_SAIDA = BASE_DIR / "dados"
+PASTA_SAIDA.mkdir(parents=True, exist_ok=True)
+JSON_SAIDA = PASTA_SAIDA / "produtos_promocao.json"
+
+# === FUNÇÕES ===
 def gerar_signature(app_id, timestamp, payload, secret):
     texto = f"{app_id}{timestamp}{payload}{secret}"
-    return hashlib.sha256(texto.encode('utf-8')).hexdigest()
+    return hashlib.sha256(texto.encode("utf-8")).hexdigest()
 
 def input_com_timeout(prompt, timeout, default):
     result = [default]
@@ -32,7 +38,6 @@ def input_com_timeout(prompt, timeout, default):
     t.join(timeout)
     return result[0]
 
-# --- Coletar produtos ---
 def buscar_produtos_paginados(limite_total=100):
     page = 1
     todos_produtos = []
@@ -64,20 +69,19 @@ def buscar_produtos_paginados(limite_total=100):
         """
 
         variables = {"page": page, "limit": limite_por_requisicao}
+        payload = {"query": query, "variables": variables}
+        payload_json = json.dumps(payload, separators=(',', ':'))
+        timestamp = int(time.time())
+        signature = gerar_signature(APP_ID, timestamp, payload_json, APP_SECRET)
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"SHA256 Credential={APP_ID}, Timestamp={timestamp}, Signature={signature}",
+            "User-Agent": "Mozilla/5.0"
+        }
 
         try:
-            payload = {"query": query, "variables": variables}
-            payload_json = json.dumps(payload, separators=(',', ':'))
-            timestamp = int(time.time())
-            signature = gerar_signature(APP_ID, timestamp, payload_json, APP_SECRET)
-
-            headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"SHA256 Credential={APP_ID}, Timestamp={timestamp}, Signature={signature}",
-                "User-Agent": "Mozilla/5.0"
-            }
-
-            print(f"📦 Buscando página {page} ({(page-1)*limite_por_requisicao+1}-{page*limite_por_requisicao})...")
+            print(f"📦 Buscando página {page} ({(page - 1) * limite_por_requisicao + 1}-{page * limite_por_requisicao})...")
             response = requests.post(ENDPOINT, headers=headers, data=payload_json, timeout=15)
             response.raise_for_status()
             data = response.json()
@@ -105,7 +109,7 @@ def buscar_produtos_paginados(limite_total=100):
                     if preco_max > preco_min:
                         preco_formatado += f" (de R${preco_max:.2f})"
 
-                    vendas_formatado = f"{vendas//1000}mil+ vendas" if vendas >= 1000 else f"{vendas}+ vendas"
+                    vendas_formatado = f"{vendas // 1000}mil+ vendas" if vendas >= 1000 else f"{vendas}+ vendas"
 
                     todos_produtos.append({
                         "id": p.get("itemId"),
@@ -149,7 +153,6 @@ def buscar_produtos_paginados(limite_total=100):
 
     return todos_produtos[:limite_total]
 
-# --- Salvar e exibir ---
 def salvar_produtos(produtos):
     try:
         with open(JSON_SAIDA, "w", encoding="utf-8") as f:
@@ -160,15 +163,15 @@ def salvar_produtos(produtos):
 
 def mostrar_resumo(produtos):
     print("\n📊 RESUMO DA COLETA")
-    print("="*40)
+    print("=" * 40)
     print(f"🔢 Total de produtos: {len(produtos)}")
     if produtos:
         print(f"🏷️ Maior desconto: {max(p['desconto'] for p in produtos)}%")
         print(f"💰 Maior comissão: {max(float(p['comissao'].replace('%', '')) for p in produtos)}%")
         print(f"🛒 Loja com mais produtos: {max(set(p['loja'] for p in produtos), key=lambda x: sum(1 for p in produtos if p['loja'] == x))}")
-    print("="*40)
+    print("=" * 40)
 
-# --- Execução principal ---
+# === EXECUÇÃO PRINCIPAL ===
 if __name__ == "__main__":
     try:
         modo_automatico = "--auto" in sys.argv
