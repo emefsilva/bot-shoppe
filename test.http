@@ -1,0 +1,15 @@
+### Coletar ofertas
+POST http://localhost:8000/coletar-ofertas?qtd=20
+Content-Type: application/json
+
+###
+
+### Gerar imagem
+POST http://localhost:8000/gerar-imagem
+Content-Type: application/json
+
+###
+
+### Enviar via WhatsApp
+POST http://localhost:8000/enviar-whatsapp
+Content-Type: application/json

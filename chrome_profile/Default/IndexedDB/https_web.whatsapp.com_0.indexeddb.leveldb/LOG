@@ -1,15 +1,42 @@
-2025/07/22-23:26:15.628 7adb Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/07/22-23:26:15.629 7adb Recovering log #104
-2025/07/22-23:26:15.716 7adb Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000104.log 
-2025/07/22-23:26:17.371 7add Level-0 table #110: started
-2025/07/22-23:26:17.391 7add Level-0 table #110: 213129 bytes OK
-2025/07/22-23:26:17.396 7add Delete type=0 #104
-2025/07/22-23:26:17.397 7adb Manual compaction at level-0 from '\x00(\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00)\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/07/22-23:26:17.508 7adc Compacting 1@1 + 2@2 files
-2025/07/22-23:26:17.691 7adc Generated table #111@1: 46339 keys, 2195069 bytes
-2025/07/22-23:26:17.751 7adc Generated table #112@1: 15773 keys, 402946 bytes
-2025/07/22-23:26:17.751 7adc Compacted 1@1 + 2@2 files => 2598015 bytes
-2025/07/22-23:26:17.754 7adc compacted to: files[ 0 0 2 0 0 0 0 ]
-2025/07/22-23:26:17.754 7adc Delete type=2 #106
-2025/07/22-23:26:17.755 7adc Delete type=2 #110
-2025/07/22-23:26:17.755 7adc Delete type=2 #107
+2025/07/25-19:09:46.629 d6a5 Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/25-19:09:46.631 d6a5 Recovering log #948
+2025/07/25-19:09:46.689 d6a5 Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000948.log 
+2025/07/25-19:09:48.580 d6a6 Level-0 table #958: started
+2025/07/25-19:09:48.602 d6a6 Level-0 table #958: 437380 bytes OK
+2025/07/25-19:09:48.605 d6a6 Delete type=0 #948
+2025/07/25-19:09:48.605 d6b1 Manual compaction at level-0 from '\x00\x98\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x99\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/25-19:09:51.747 d6b1 Compacting 1@1 + 6@2 files
+2025/07/25-19:09:52.015 d6b1 Generated table #959@1: 89901 keys, 2239313 bytes
+2025/07/25-19:09:52.095 d6b1 Generated table #960@1: 19496 keys, 2180837 bytes
+2025/07/25-19:09:52.145 d6b1 Generated table #961@1: 8541 keys, 2138740 bytes
+2025/07/25-19:09:52.237 d6b1 Generated table #962@1: 30406 keys, 2156216 bytes
+2025/07/25-19:09:52.454 d6b1 Generated table #963@1: 115461 keys, 2270488 bytes
+2025/07/25-19:09:52.501 d6b1 Generated table #964@1: 24533 keys, 878839 bytes
+2025/07/25-19:09:52.502 d6b1 Compacted 1@1 + 6@2 files => 11864433 bytes
+2025/07/25-19:09:52.504 d6b1 compacted to: files[ 0 0 6 0 0 0 0 ]
+2025/07/25-19:09:52.504 d6b1 Delete type=2 #951
+2025/07/25-19:09:52.505 d6b1 Delete type=2 #950
+2025/07/25-19:09:52.505 d6b1 Delete type=2 #954
+2025/07/25-19:09:52.505 d6b1 Delete type=2 #952
+2025/07/25-19:09:52.505 d6b1 Delete type=2 #958
+2025/07/25-19:09:52.505 d6b1 Delete type=2 #953
+2025/07/25-19:09:52.505 d6b1 Delete type=2 #955
+2025/07/25-19:13:56.337 d6a5 Level-0 table #966: started
+2025/07/25-19:13:56.400 d6a5 Level-0 table #966: 1549564 bytes OK
+2025/07/25-19:13:56.404 d6a5 Delete type=0 #957
+2025/07/25-19:13:58.687 d6a5 Compacting 1@1 + 6@2 files
+2025/07/25-19:13:58.856 d6a5 Generated table #967@1: 89965 keys, 2240830 bytes
+2025/07/25-19:13:58.904 d6a5 Generated table #968@1: 22817 keys, 2191198 bytes
+2025/07/25-19:13:58.934 d6a5 Generated table #969@1: 7694 keys, 2161180 bytes
+2025/07/25-19:13:58.990 d6a5 Generated table #970@1: 22192 keys, 2144552 bytes
+2025/07/25-19:13:59.142 d6a5 Generated table #971@1: 115542 keys, 2270038 bytes
+2025/07/25-19:13:59.202 d6a5 Generated table #972@1: 39442 keys, 1182755 bytes
+2025/07/25-19:13:59.202 d6a5 Compacted 1@1 + 6@2 files => 12190553 bytes
+2025/07/25-19:13:59.204 d6a5 compacted to: files[ 0 0 6 0 0 0 0 ]
+2025/07/25-19:13:59.205 d6a5 Delete type=2 #960
+2025/07/25-19:13:59.205 d6a5 Delete type=2 #959
+2025/07/25-19:13:59.205 d6a5 Delete type=2 #966
+2025/07/25-19:13:59.205 d6a5 Delete type=2 #962
+2025/07/25-19:13:59.205 d6a5 Delete type=2 #961
+2025/07/25-19:13:59.205 d6a5 Delete type=2 #964
+2025/07/25-19:13:59.206 d6a5 Delete type=2 #963

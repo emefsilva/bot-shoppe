@@ -2,6 +2,11 @@ import os
 import sys
 import time
 import pyperclip
+import random
+import psutil
+import signal
+import fcntl
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -13,16 +18,35 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 NOME_GRUPO = "Teste shoppe"
 INTERVALO_SEGUNDOS = 30
+LOCK_FILE = "/tmp/whatsapp_chrome.lock"
+
+# Função para aplicar o lock
+def adquirir_lock():
+    lock_fh = open(LOCK_FILE, "w")
+    try:
+        fcntl.flock(lock_fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return lock_fh
+    except BlockingIOError:
+        print("❌ Outro processo já está usando o Chrome com esse perfil. Abortando.")
+        sys.exit(1)
 
 def iniciar_whatsapp():
     chrome_options = Options()
     user_data_dir = os.path.abspath("chrome_profile")
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    try:
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    except Exception as e:
+        print(f"❌ Erro ao iniciar Chrome: {e}")
+        return None
+
     driver.get("https://web.whatsapp.com")
     print("🟡 Aguardando WhatsApp Web carregar...")
-    time.sleep(10)  # tempo inicial para carregar
+    time.sleep(10)
 
     try:
         grupo = WebDriverWait(driver, 20).until(
@@ -46,7 +70,6 @@ def iniciar_whatsapp():
             return None
 
     return driver
-
 
 def aguardar_preview(driver, timeout=10):
     def condicao_preview(driver):
@@ -85,40 +108,73 @@ def enviar_com_copiar_colar(driver, mensagem):
         time.sleep(1)
         return False
 
+def finalizar_selenium_completamente():
+    print("🛑 Encerrando processos do Selenium (chromedriver e chrome)...")
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+        try:
+            cmd = " ".join(proc.info['cmdline'])
+            if "chrome" in cmd.lower() or "chromedriver" in cmd.lower():
+                print(f"🔪 Matando processo: {cmd} (PID {proc.pid})")
+                proc.send_signal(signal.SIGKILL)
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+    print("✅ Todos os processos do Selenium foram encerrados.")    
+
 def main():
-    diretorio_saida = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
+    lock = adquirir_lock()
+
+    diretorio_saida = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].isdigit() else os.getcwd()
+    quantidade = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 10
+
     pasta_imagem = os.path.join(diretorio_saida, "dados/imagem")
+    pasta_imagem_enviadas = os.path.join(diretorio_saida, "dados/imagem_enviadas")
+    os.makedirs(pasta_imagem_enviadas, exist_ok=True)
 
     if not os.path.exists(pasta_imagem):
         print(f"❌ Pasta '{pasta_imagem}' não encontrada.")
         return
 
-    arquivos = sorted([f for f in os.listdir(pasta_imagem) if f.startswith("anuncio_")])
+    arquivos = [f for f in os.listdir(pasta_imagem) if f.startswith("anuncio_")]
     if not arquivos:
         print("❌ Nenhum anúncio encontrado.")
         return
 
-    driver = iniciar_whatsapp()
+    random.shuffle(arquivos)
 
+    driver = iniciar_whatsapp()
     if not driver:
         return
 
-    for i, arquivo in enumerate(arquivos, 1):
+    sucessos = 0
+    tentativas = 0
+    MAX_TENTATIVAS = len(arquivos) * 2
+
+    while sucessos < quantidade and tentativas < MAX_TENTATIVAS and arquivos:
+        arquivo = arquivos.pop(0)
         caminho = os.path.join(pasta_imagem, arquivo)
+
         with open(caminho, "r", encoding="utf-8") as f:
             mensagem = f.read()
 
-        print(f"\n📤 Enviando anúncio {i} de {len(arquivos)}...")
-        print(mensagem)
+        print(f"\n📤 Tentando enviar anúncio ({sucessos+1}/{quantidade}): {arquivo}")
+        enviado = enviar_com_copiar_colar(driver, mensagem)
 
-        enviar_com_copiar_colar(driver, mensagem)
+        if enviado:
+            sucessos += 1
+            novo_caminho = os.path.join(pasta_imagem_enviadas, arquivo)
+            os.rename(caminho, novo_caminho)
+            print(f"✅ Arquivo movido para '{pasta_imagem_enviadas}'.")
+        else:
+            print("❌ Falha ao enviar. Pulando para o próximo arquivo.")
 
-        if i < len(arquivos):
-            print(f"⏳ Aguardando {INTERVALO_SEGUNDOS} segundos...")
+        tentativas += 1
+        if sucessos < quantidade:
+            print(f"⏳ Aguardando {INTERVALO_SEGUNDOS} segundos antes do próximo envio...")
             time.sleep(INTERVALO_SEGUNDOS)
 
-    print("\n✅ Todos os anúncios foram enviados com sucesso!")
+    print(f"\n✅ Finalizado: {sucessos} anúncios enviados com sucesso.")
     driver.quit()
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()

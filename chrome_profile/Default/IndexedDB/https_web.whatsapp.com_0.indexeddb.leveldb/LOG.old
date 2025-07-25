@@ -1,15 +1,23 @@
-2025/07/22-23:24:21.902 781c Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/07/22-23:24:21.902 781c Recovering log #99
-2025/07/22-23:24:21.938 781c Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000099.log 
-2025/07/22-23:24:23.627 7827 Level-0 table #105: started
-2025/07/22-23:24:23.658 7827 Level-0 table #105: 249311 bytes OK
-2025/07/22-23:24:23.661 7827 Delete type=0 #99
-2025/07/22-23:24:23.664 7827 Manual compaction at level-0 from '\x00'\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00(\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/07/22-23:24:28.071 7827 Compacting 1@1 + 2@2 files
-2025/07/22-23:24:28.459 7827 Generated table #106@1: 45998 keys, 2194099 bytes
-2025/07/22-23:24:28.540 7827 Generated table #107@1: 15367 keys, 387582 bytes
-2025/07/22-23:24:28.541 7827 Compacted 1@1 + 2@2 files => 2581681 bytes
-2025/07/22-23:24:28.543 7827 compacted to: files[ 0 0 2 0 0 0 0 ]
-2025/07/22-23:24:28.543 7827 Delete type=2 #105
-2025/07/22-23:24:28.543 7827 Delete type=2 #101
-2025/07/22-23:24:28.544 7827 Delete type=2 #102
+2025/07/25-18:37:29.312 d30a Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/25-18:37:29.314 d30a Recovering log #939
+2025/07/25-18:37:29.354 d30a Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000939.log 
+2025/07/25-18:37:31.128 d30a Level-0 table #949: started
+2025/07/25-18:37:31.145 d30a Level-0 table #949: 385510 bytes OK
+2025/07/25-18:37:31.148 d30a Delete type=0 #939
+2025/07/25-18:37:31.149 d30a Manual compaction at level-0 from '\x00\x97\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x98\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/25-18:37:34.362 d30c Compacting 1@1 + 6@2 files
+2025/07/25-18:37:34.600 d30c Generated table #950@1: 90049 keys, 2241206 bytes
+2025/07/25-18:37:34.675 d30c Generated table #951@1: 18055 keys, 2172109 bytes
+2025/07/25-18:37:34.730 d30c Generated table #952@1: 8533 keys, 2141975 bytes
+2025/07/25-18:37:34.850 d30c Generated table #953@1: 32701 keys, 2158090 bytes
+2025/07/25-18:37:35.025 d30c Generated table #954@1: 115481 keys, 2271729 bytes
+2025/07/25-18:37:35.070 d30c Generated table #955@1: 21684 keys, 817994 bytes
+2025/07/25-18:37:35.070 d30c Compacted 1@1 + 6@2 files => 11803103 bytes
+2025/07/25-18:37:35.072 d30c compacted to: files[ 0 0 6 0 0 0 0 ]
+2025/07/25-18:37:35.073 d30c Delete type=2 #941
+2025/07/25-18:37:35.073 d30c Delete type=2 #945
+2025/07/25-18:37:35.073 d30c Delete type=2 #943
+2025/07/25-18:37:35.073 d30c Delete type=2 #944
+2025/07/25-18:37:35.073 d30c Delete type=2 #946
+2025/07/25-18:37:35.073 d30c Delete type=2 #949
+2025/07/25-18:37:35.074 d30c Delete type=2 #942

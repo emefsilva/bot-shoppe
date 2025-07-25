@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import threading
+import sys
 
 # === Caminhos organizados ===
 BASE_DIR = Path(__file__).parent
@@ -75,18 +76,14 @@ if __name__ == "__main__":
         if produtos:
             mostrar_exemplo(produtos[0])
 
-            import sys
+
             modo_automatico = "--auto" in sys.argv
 
             if modo_automatico:
-                resposta = "s"
-            else:
-                resposta = input_com_timeout(
-                    "\nGerar anúncios para todos os produtos? (s/n) [Padrão: s]: ",
-                    5, "s"
-                ).lower()
-
-            if resposta == 's':
+                print("\n⚙️  Modo automático ativado: gerando anúncios sem confirmação.")
+                salvar_anuncios(produtos)
+                print("\n✅ Anúncios prontos na pasta 'dados/imagem/'!")
+                
                 salvar_anuncios(produtos)
                 print("\n✅ Anúncios prontos na pasta 'dados/imagem/'!")
         else:
