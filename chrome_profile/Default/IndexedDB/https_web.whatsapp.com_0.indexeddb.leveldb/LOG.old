@@ -1,23 +1,25 @@
-2025/07/25-18:37:29.312 d30a Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/07/25-18:37:29.314 d30a Recovering log #939
-2025/07/25-18:37:29.354 d30a Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000939.log 
-2025/07/25-18:37:31.128 d30a Level-0 table #949: started
-2025/07/25-18:37:31.145 d30a Level-0 table #949: 385510 bytes OK
-2025/07/25-18:37:31.148 d30a Delete type=0 #939
-2025/07/25-18:37:31.149 d30a Manual compaction at level-0 from '\x00\x97\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x98\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/07/25-18:37:34.362 d30c Compacting 1@1 + 6@2 files
-2025/07/25-18:37:34.600 d30c Generated table #950@1: 90049 keys, 2241206 bytes
-2025/07/25-18:37:34.675 d30c Generated table #951@1: 18055 keys, 2172109 bytes
-2025/07/25-18:37:34.730 d30c Generated table #952@1: 8533 keys, 2141975 bytes
-2025/07/25-18:37:34.850 d30c Generated table #953@1: 32701 keys, 2158090 bytes
-2025/07/25-18:37:35.025 d30c Generated table #954@1: 115481 keys, 2271729 bytes
-2025/07/25-18:37:35.070 d30c Generated table #955@1: 21684 keys, 817994 bytes
-2025/07/25-18:37:35.070 d30c Compacted 1@1 + 6@2 files => 11803103 bytes
-2025/07/25-18:37:35.072 d30c compacted to: files[ 0 0 6 0 0 0 0 ]
-2025/07/25-18:37:35.073 d30c Delete type=2 #941
-2025/07/25-18:37:35.073 d30c Delete type=2 #945
-2025/07/25-18:37:35.073 d30c Delete type=2 #943
-2025/07/25-18:37:35.073 d30c Delete type=2 #944
-2025/07/25-18:37:35.073 d30c Delete type=2 #946
-2025/07/25-18:37:35.073 d30c Delete type=2 #949
-2025/07/25-18:37:35.074 d30c Delete type=2 #942
+2025/07/25-23:16:00.518 16b2c Reusing MANIFEST C:\Users\emefe\projects\bot_shopee\chrome_profile\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/25-23:16:00.519 16b2c Recovering log #1084
+2025/07/25-23:16:00.535 16b2c Reusing old log C:\Users\emefe\projects\bot_shopee\chrome_profile\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/001084.log 
+2025/07/25-23:16:01.734 1a5a8 Level-0 table #1095: started
+2025/07/25-23:16:01.751 1a5a8 Level-0 table #1095: 894273 bytes OK
+2025/07/25-23:16:01.752 1a5a8 Delete type=0 #1084
+2025/07/25-23:16:01.753 145e8 Manual compaction at level-0 from '\x00\xa5\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xa6\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/25-23:16:02.783 1c928 Compacting 1@1 + 7@2 files
+2025/07/25-23:16:02.824 1c928 Generated table #1096@1: 88702 keys, 2238997 bytes
+2025/07/25-23:16:02.853 1c928 Generated table #1097@1: 45574 keys, 2229968 bytes
+2025/07/25-23:16:02.859 1c928 Generated table #1098@1: 207 keys, 2120591 bytes
+2025/07/25-23:16:02.876 1c928 Generated table #1099@1: 9896 keys, 2141617 bytes
+2025/07/25-23:16:02.909 1c928 Generated table #1100@1: 75773 keys, 2217395 bytes
+2025/07/25-23:16:02.951 1c928 Generated table #1101@1: 112037 keys, 2266650 bytes
+2025/07/25-23:16:02.959 1c928 Generated table #1102@1: 5445 keys, 544505 bytes
+2025/07/25-23:16:02.959 1c928 Compacted 1@1 + 7@2 files => 13759723 bytes
+2025/07/25-23:16:02.959 1c928 compacted to: files[ 0 0 7 0 0 0 0 ]
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1086
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1087
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1088
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1089
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1090
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1091
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1092
+2025/07/25-23:16:02.959 1c928 Delete type=2 #1095

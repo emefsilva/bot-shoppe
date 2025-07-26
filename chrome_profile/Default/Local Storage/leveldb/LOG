@@ -1,3 +1,15 @@
-2025/07/25-19:09:44.541 d6c1 Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/Local Storage/leveldb/MANIFEST-000001
-2025/07/25-19:09:44.583 d6c1 Recovering log #82
-2025/07/25-19:09:44.599 d6c1 Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/Local Storage/leveldb/000082.log 
+2025/07/25-23:32:58.150 19ae8 Reusing MANIFEST C:\Users\emefe\projects\bot_shopee\chrome_profile\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/25-23:32:58.154 19ae8 Recovering log #87
+2025/07/25-23:32:58.156 19ae8 Reusing old log C:\Users\emefe\projects\bot_shopee\chrome_profile\Default\Local Storage\leveldb/000087.log 
+2025/07/25-23:33:58.166 188c8 Level-0 table #91: started
+2025/07/25-23:33:58.168 188c8 Level-0 table #91: 16576 bytes OK
+2025/07/25-23:33:58.169 188c8 Delete type=0 #87
+2025/07/25-23:33:58.170 188c8 Compacting 4@0 + 1@1 files
+2025/07/25-23:33:58.174 188c8 Generated table #92@0: 135 keys, 319946 bytes
+2025/07/25-23:33:58.174 188c8 Compacted 4@0 + 1@1 files => 319946 bytes
+2025/07/25-23:33:58.174 188c8 compacted to: files[ 0 1 0 0 0 0 0 ]
+2025/07/25-23:33:58.175 188c8 Delete type=2 #79
+2025/07/25-23:33:58.175 188c8 Delete type=2 #81
+2025/07/25-23:33:58.175 188c8 Delete type=2 #84
+2025/07/25-23:33:58.175 188c8 Delete type=2 #88
+2025/07/25-23:33:58.175 188c8 Delete type=2 #91

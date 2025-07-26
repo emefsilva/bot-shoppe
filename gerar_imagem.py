@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import threading
 import sys
+import time
 
 # === Caminhos organizados ===
 BASE_DIR = Path(__file__).parent
@@ -33,12 +34,20 @@ def gerar_anuncio(produto):
 def salvar_anuncios(produtos):
     """Salva os anúncios em arquivos .txt na pasta dados/imagem"""
     criar_pasta_imagens()
+
+    timestamp = time.strftime("%Y%m%d_%H%M%S")  # exemplo: 20250726_211503    
     
+def salvar_anuncios(produtos):
+    """Salva os anúncios em arquivos .txt na pasta dados/imagem"""
+    criar_pasta_imagens()
+
+    timestamp = time.strftime("%Y%m%d_%H%M%S")  # exemplo: 20250726_211503
+
     for i, produto in enumerate(produtos, 1):
-        nome_arquivo = PASTA_IMAGENS / f"anuncio_{i}.txt"
+        nome_arquivo = PASTA_IMAGENS / f"anuncio_{timestamp}_{i}.txt"
         with open(nome_arquivo, "w", encoding="utf-8") as f:
             f.write(gerar_anuncio(produto))
-    
+
     print(f"💾 {len(produtos)} anúncios salvos em '{PASTA_IMAGENS}'")
 
 def mostrar_exemplo(produto):
@@ -80,12 +89,17 @@ if __name__ == "__main__":
             modo_automatico = "--auto" in sys.argv
 
             if modo_automatico:
-                print("\n⚙️  Modo automático ativado: gerando anúncios sem confirmação.")
+                resposta = "s"
+            else:
+                resposta = input_com_timeout(
+                    "\nGerar anúncios para todos os produtos? (s/n) [Padrão: s]: ",
+                    5, "s"
+                ).lower()
+
+            if resposta == 's':
                 salvar_anuncios(produtos)
                 print("\n✅ Anúncios prontos na pasta 'dados/imagem/'!")
-                
-                salvar_anuncios(produtos)
-                print("\n✅ Anúncios prontos na pasta 'dados/imagem/'!")
+
         else:
             print("Nenhum produto encontrado no arquivo.")
     except FileNotFoundError:

@@ -5,8 +5,9 @@ import pyperclip
 import random
 import psutil
 import signal
-import fcntl
+from pathlib import Path
 
+from filelock import FileLock, Timeout
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -18,15 +19,15 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 NOME_GRUPO = "Teste shoppe"
 INTERVALO_SEGUNDOS = 30
-LOCK_FILE = "/tmp/whatsapp_chrome.lock"
+LOCK_FILE = "whatsapp.lock"  # Compatível com Windows e Linux
 
-# Função para aplicar o lock
+# === Função para aplicar lock de processo ===
 def adquirir_lock():
-    lock_fh = open(LOCK_FILE, "w")
+    lock = FileLock(LOCK_FILE)
     try:
-        fcntl.flock(lock_fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        return lock_fh
-    except BlockingIOError:
+        lock.acquire(timeout=1)
+        return lock
+    except Timeout:
         print("❌ Outro processo já está usando o Chrome com esse perfil. Abortando.")
         sys.exit(1)
 
@@ -121,7 +122,7 @@ def finalizar_selenium_completamente():
     print("✅ Todos os processos do Selenium foram encerrados.")    
 
 def main():
-    lock = adquirir_lock()
+    lock = adquirir_lock()  # Lock seguro e multiplataforma
 
     diretorio_saida = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].isdigit() else os.getcwd()
     quantidade = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 10
@@ -174,6 +175,7 @@ def main():
 
     print(f"\n✅ Finalizado: {sucessos} anúncios enviados com sucesso.")
     driver.quit()
+    # lock.release()  # Opcional: é liberado automaticamente ao sair
     sys.exit(0)
 
 if __name__ == "__main__":

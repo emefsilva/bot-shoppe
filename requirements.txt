@@ -4,3 +4,4 @@ pyperclip
 fastapi
 uvicorn
 psutil
+filelock
