@@ -5,7 +5,6 @@ import pyperclip
 import random
 import psutil
 import signal
-from pathlib import Path
 
 from filelock import FileLock, Timeout
 from selenium import webdriver
@@ -19,9 +18,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 NOME_GRUPO = "Teste shoppe"
 INTERVALO_SEGUNDOS = 30
-LOCK_FILE = "whatsapp.lock"  # Compatível com Windows e Linux
+LOCK_FILE = "/tmp/whatsapp_chrome.lock"
 
-# === Função para aplicar lock de processo ===
+# Função para aplicar o lock
 def adquirir_lock():
     lock = FileLock(LOCK_FILE)
     try:
@@ -122,7 +121,7 @@ def finalizar_selenium_completamente():
     print("✅ Todos os processos do Selenium foram encerrados.")    
 
 def main():
-    lock = adquirir_lock()  # Lock seguro e multiplataforma
+    lock = adquirir_lock()
 
     diretorio_saida = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].isdigit() else os.getcwd()
     quantidade = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 10
@@ -162,9 +161,11 @@ def main():
 
         if enviado:
             sucessos += 1
-            novo_caminho = os.path.join(pasta_imagem_enviadas, arquivo)
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            nome_novo_arquivo = arquivo.rsplit('.', 1)[0] + f"_{timestamp}.txt"
+            novo_caminho = os.path.join(pasta_imagem_enviadas, nome_novo_arquivo)
             os.rename(caminho, novo_caminho)
-            print(f"✅ Arquivo movido para '{pasta_imagem_enviadas}'.")
+            print(f"✅ Arquivo movido para '{pasta_imagem_enviadas}' com timestamp: {nome_novo_arquivo}")
         else:
             print("❌ Falha ao enviar. Pulando para o próximo arquivo.")
 

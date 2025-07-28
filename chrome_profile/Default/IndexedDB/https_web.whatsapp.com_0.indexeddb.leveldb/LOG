@@ -1,25 +1,4 @@
-2025/07/25-23:32:58.825 19650 Reusing MANIFEST C:\Users\emefe\projects\bot_shopee\chrome_profile\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/07/25-23:32:58.826 19650 Recovering log #1094
-2025/07/25-23:32:58.844 19650 Reusing old log C:\Users\emefe\projects\bot_shopee\chrome_profile\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/001094.log 
-2025/07/25-23:33:00.174 f598 Level-0 table #1105: started
-2025/07/25-23:33:00.192 f598 Level-0 table #1105: 802946 bytes OK
-2025/07/25-23:33:00.193 f598 Delete type=0 #1094
-2025/07/25-23:33:00.194 19650 Manual compaction at level-0 from '\x00\xa6\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xa7\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/07/25-23:33:01.460 f598 Compacting 1@1 + 7@2 files
-2025/07/25-23:33:01.527 f598 Generated table #1106@1: 88547 keys, 2237755 bytes
-2025/07/25-23:33:01.556 f598 Generated table #1107@1: 47821 keys, 2229885 bytes
-2025/07/25-23:33:01.562 f598 Generated table #1108@1: 208 keys, 2117139 bytes
-2025/07/25-23:33:01.578 f598 Generated table #1109@1: 9916 keys, 2142462 bytes
-2025/07/25-23:33:01.610 f598 Generated table #1110@1: 70759 keys, 2209821 bytes
-2025/07/25-23:33:01.651 f598 Generated table #1111@1: 115038 keys, 2269113 bytes
-2025/07/25-23:33:01.659 f598 Generated table #1112@1: 8656 keys, 669956 bytes
-2025/07/25-23:33:01.659 f598 Compacted 1@1 + 7@2 files => 13876131 bytes
-2025/07/25-23:33:01.659 f598 compacted to: files[ 0 0 7 0 0 0 0 ]
-2025/07/25-23:33:01.659 f598 Delete type=2 #1096
-2025/07/25-23:33:01.659 f598 Delete type=2 #1097
-2025/07/25-23:33:01.659 f598 Delete type=2 #1098
-2025/07/25-23:33:01.659 f598 Delete type=2 #1099
-2025/07/25-23:33:01.659 f598 Delete type=2 #1100
-2025/07/25-23:33:01.659 f598 Delete type=2 #1101
-2025/07/25-23:33:01.659 f598 Delete type=2 #1102
-2025/07/25-23:33:01.659 f598 Delete type=2 #1105
+2025/07/28-18:04:44.405 29cdd Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/28-18:04:44.407 29cdd Recovering log #2110
+2025/07/28-18:04:44.485 29cdd Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002110.log 
+2025/07/28-18:04:45.473 29cdf Manual compaction at level-0 from '\x00\xdb\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xdc\x00\x00\x00' @ 0 : 0; will stop at (end)

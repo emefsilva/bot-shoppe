@@ -1,108 +1,54 @@
+import os
+import re
 import json
+import requests
 from pathlib import Path
-import threading
-import sys
-import time
 
-# === Caminhos organizados ===
-BASE_DIR = Path(__file__).parent
-PASTA_DADOS = BASE_DIR / "dados"
-ARQUIVO_JSON = PASTA_DADOS / "produtos_promocao.json"
-PASTA_IMAGENS = PASTA_DADOS / "imagem"
+PASTA_IMAGENS = Path(__file__).parent / "dados" / "imagem"
+PASTA_IMAGENS.mkdir(parents=True, exist_ok=True)
 
-# === Funções ===
-def criar_pasta_imagens():
-    """Cria a pasta 'dados/imagem' se não existir"""
-    PASTA_IMAGENS.mkdir(parents=True, exist_ok=True)
-    print("📂 Pasta 'dados/imagem' verificada/criada.")
+with open("produtos_promocao.json", "r", encoding="utf-8") as f:
+    produtos = json.load(f)
 
-def gerar_anuncio(produto):
-    """Gera um anúncio com emojis e formatação melhorada"""
-    preco_atual = produto['preco'].split(' ')[0]
-    preco_original = produto['preco'].split('de ')[1].replace(')', '') if 'de' in produto['preco'] else ''
-    
-    anuncio = f"🛍️ {produto['nome']}\n\n"
-    if preco_original:
-        anuncio += f"de: ~{preco_original}~\n"
-    anuncio += (
-        f"💸 Por: {preco_atual} 🔥\n\n"
-        f"👉 Link para comprar: {produto['link']}\n\n"
+for i, produto in enumerate(produtos):
+    nome = produto["nome"]
+    link = produto["link"]
+    imagem_url = produto["imagem"]
+    preco = produto["preco"]
+    desconto = produto.get("desconto", 0)
+
+    # 🧼 Limpar preço atual (pegar apenas o número)
+    preco_limpo = re.search(r"\d+(?:[\.,]\d+)?", preco)
+    preco_num = float(preco_limpo.group().replace(",", ".")) if preco_limpo else 0.0
+
+    # 💰 Calcular preço original se houver desconto
+    if desconto:
+        preco_original = preco_num / (1 - desconto / 100)
+        linha_de = f"de: ~R${preco_original:.2f}~\n"
+    else:
+        linha_de = ""
+
+    # ✍️ Montar a mensagem
+    mensagem = (
+        f"🛍️ {nome}\n\n"
+        f"{linha_de}"
+        f"💸 Por: R${preco_num:.2f} 🔥\n\n"
+        f"👉 Link para comprar: {link}\n\n"
         f"_*Promoção sujeita a alteração a qualquer momento*_"
     )
-    return anuncio
 
-def salvar_anuncios(produtos):
-    """Salva os anúncios em arquivos .txt na pasta dados/imagem"""
-    criar_pasta_imagens()
+    # 🧾 Salvar .txt com a mensagem
+    caminho_txt = PASTA_IMAGENS / f"anuncio_{i+1}.txt"
+    with open(caminho_txt, "w", encoding="utf-8") as f:
+        f.write(mensagem)
 
-    timestamp = time.strftime("%Y%m%d_%H%M%S")  # exemplo: 20250726_211503    
-    
-def salvar_anuncios(produtos):
-    """Salva os anúncios em arquivos .txt na pasta dados/imagem"""
-    criar_pasta_imagens()
-
-    timestamp = time.strftime("%Y%m%d_%H%M%S")  # exemplo: 20250726_211503
-
-    for i, produto in enumerate(produtos, 1):
-        nome_arquivo = PASTA_IMAGENS / f"anuncio_{timestamp}_{i}.txt"
-        with open(nome_arquivo, "w", encoding="utf-8") as f:
-            f.write(gerar_anuncio(produto))
-
-    print(f"💾 {len(produtos)} anúncios salvos em '{PASTA_IMAGENS}'")
-
-def mostrar_exemplo(produto):
-    """Mostra um exemplo de anúncio no console"""
-    print("\n" + "═" * 50)
-    print(" MODELO DE ANÚNCIO ".center(50, "═"))
-    print("═" * 50 + "\n")
-    print(gerar_anuncio(produto))
-    print("\n" + "═" * 50)
-
-def input_com_timeout(prompt, timeout, default):
-    """Função que retorna input com valor padrão após timeout"""
-    result = [default]
-
-    def inner():
-        try:
-            user_input = input(prompt)
-            if user_input.strip():
-                result[0] = user_input
-        except:
-            pass
-
-    t = threading.Thread(target=inner)
-    t.daemon = True
-    t.start()
-    t.join(timeout)
-    return result[0]
-
-# === Execução principal ===
-if __name__ == "__main__":
+    # 🖼️ Baixar imagem
+    caminho_img = PASTA_IMAGENS / f"anuncio_{i+1}.jpg"
     try:
-        with open(ARQUIVO_JSON, "r", encoding="utf-8") as f:
-            produtos = json.load(f)
-
-        if produtos:
-            mostrar_exemplo(produtos[0])
-
-
-            modo_automatico = "--auto" in sys.argv
-
-            if modo_automatico:
-                resposta = "s"
-            else:
-                resposta = input_com_timeout(
-                    "\nGerar anúncios para todos os produtos? (s/n) [Padrão: s]: ",
-                    5, "s"
-                ).lower()
-
-            if resposta == 's':
-                salvar_anuncios(produtos)
-                print("\n✅ Anúncios prontos na pasta 'dados/imagem/'!")
-
-        else:
-            print("Nenhum produto encontrado no arquivo.")
-    except FileNotFoundError:
-        print(f"❌ Arquivo '{ARQUIVO_JSON.name}' não encontrado em {ARQUIVO_JSON.parent}")
+        response = requests.get(imagem_url, timeout=10)
+        response.raise_for_status()
+        with open(caminho_img, "wb") as img_file:
+            img_file.write(response.content)
+        print(f"✅ Imagem e anúncio gerados: {caminho_txt.name}")
     except Exception as e:
-        print(f"❌ Erro: {e}")
+        print(f"❌ Erro ao baixar imagem: {imagem_url} — {e}")
