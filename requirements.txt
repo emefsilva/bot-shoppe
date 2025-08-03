@@ -5,3 +5,5 @@ fastapi
 uvicorn
 psutil
 filelock
+pyautogui
+Pillow

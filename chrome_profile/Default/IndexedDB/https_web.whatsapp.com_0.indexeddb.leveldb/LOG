@@ -1,4 +1,52 @@
-2025/07/28-18:04:44.405 29cdd Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/07/28-18:04:44.407 29cdd Recovering log #2110
-2025/07/28-18:04:44.485 29cdd Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002110.log 
-2025/07/28-18:04:45.473 29cdf Manual compaction at level-0 from '\x00\xdb\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xdc\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/03-16:41:29.161 c7fa Reusing MANIFEST /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/03-16:41:29.167 c7fa Recovering log #5039
+2025/08/03-16:41:29.212 c7fa Reusing old log /home/linuxlite/Github/bot-shoppe/chrome_profile/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/005039.log 
+2025/08/03-16:41:31.132 c7fa Level-0 table #5057: started
+2025/08/03-16:41:31.156 c7fa Level-0 table #5057: 547389 bytes OK
+2025/08/03-16:41:31.159 c7fa Delete type=0 #5039
+2025/08/03-16:41:31.160 c7fa Manual compaction at level-0 from ' \x90\x01\x00\x00\x00' @ 72057594037927935 : 1 .. ' \x91\x01\x00\x00\x00' @ 0 : 0; will stop at ' \x90\x01\x00\x00\x05' @ 11542754 : 1
+2025/08/03-16:41:31.160 c7fa Compacting 1@0 + 0@1 files
+2025/08/03-16:41:31.183 c7fa Generated table #5058@0: 7879 keys, 190151 bytes
+2025/08/03-16:41:31.187 c7fa Generated table #5059@0: 332 keys, 10601 bytes
+2025/08/03-16:41:31.187 c7fa Compacted 1@0 + 0@1 files => 200752 bytes
+2025/08/03-16:41:31.189 c7fa compacted to: files[ 0 2 34 0 0 0 0 ]
+2025/08/03-16:41:31.191 c7fa Delete type=2 #5057
+2025/08/03-16:41:31.191 c7fa Manual compaction at level-0 from ' \x90\x01\x00\x00\x05' @ 11542754 : 1 .. ' \x91\x01\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/03-16:41:34.281 c7fc Compacting 1@1 + 10@2 files
+2025/08/03-16:41:34.533 c7fc Generated table #5060@1: 86311 keys, 2236490 bytes
+2025/08/03-16:41:34.729 c7fc Generated table #5061@1: 96656 keys, 2248063 bytes
+2025/08/03-16:41:34.921 c7fc Generated table #5062@1: 101588 keys, 2253720 bytes
+2025/08/03-16:41:34.997 c7fc Generated table #5063@1: 22366 keys, 2395432 bytes
+2025/08/03-16:41:35.018 c7fc Generated table #5064@1: 222 keys, 2120185 bytes
+2025/08/03-16:41:35.040 c7fc Generated table #5065@1: 209 keys, 2117584 bytes
+2025/08/03-16:41:35.062 c7fc Generated table #5066@1: 210 keys, 2114554 bytes
+2025/08/03-16:41:35.085 c7fc Generated table #5067@1: 208 keys, 2122902 bytes
+2025/08/03-16:41:35.145 c7fc Generated table #5068@1: 15639 keys, 2170621 bytes
+2025/08/03-16:41:35.151 c7fc Generated table #5069@1: 1065 keys, 112553 bytes
+2025/08/03-16:41:35.151 c7fc Compacted 1@1 + 10@2 files => 19892104 bytes
+2025/08/03-16:41:35.155 c7fc compacted to: files[ 0 1 34 0 0 0 0 ]
+2025/08/03-16:41:35.157 c7fc Delete type=2 #5049
+2025/08/03-16:41:35.157 c7fc Delete type=2 #5047
+2025/08/03-16:41:35.157 c7fc Delete type=2 #5058
+2025/08/03-16:41:35.157 c7fc Delete type=2 #5044
+2025/08/03-16:41:35.157 c7fc Delete type=2 #5045
+2025/08/03-16:41:35.157 c7fc Delete type=2 #5048
+2025/08/03-16:41:35.158 c7fc Delete type=2 #5050
+2025/08/03-16:41:35.158 c7fc Delete type=2 #5046
+2025/08/03-16:41:35.158 c7fc Delete type=2 #5043
+2025/08/03-16:41:35.158 c7fc Delete type=2 #5051
+2025/08/03-16:41:35.158 c7fc Delete type=2 #5052
+2025/08/03-16:41:36.749 c7fb Compacting 1@1 + 5@2 files
+2025/08/03-16:41:37.041 c7fb Generated table #5070@1: 109391 keys, 2262039 bytes
+2025/08/03-16:41:37.320 c7fb Generated table #5071@1: 112880 keys, 2266780 bytes
+2025/08/03-16:41:37.509 c7fb Generated table #5072@1: 112814 keys, 2264377 bytes
+2025/08/03-16:41:37.730 c7fb Generated table #5073@1: 91102 keys, 2247570 bytes
+2025/08/03-16:41:37.782 c7fb Generated table #5074@1: 5012 keys, 462220 bytes
+2025/08/03-16:41:37.783 c7fb Compacted 1@1 + 5@2 files => 9502986 bytes
+2025/08/03-16:41:37.803 c7fb compacted to: files[ 0 0 34 0 0 0 0 ]
+2025/08/03-16:41:37.804 c7fb Delete type=2 #5035
+2025/08/03-16:41:37.804 c7fb Delete type=2 #5059
+2025/08/03-16:41:37.804 c7fb Delete type=2 #5034
+2025/08/03-16:41:37.804 c7fb Delete type=2 #5054
+2025/08/03-16:41:37.804 c7fb Delete type=2 #5053
+2025/08/03-16:41:37.805 c7fb Delete type=2 #5033

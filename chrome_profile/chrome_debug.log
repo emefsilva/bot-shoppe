@@ -1,5 +1,7 @@
-[171216:171216:0728/180441.572996:INFO:components/enterprise/browser/controller/chrome_browser_cloud_management_controller.cc:202] No machine level policy manager exists.
-[171250:171250:0728/180441.754379:WARNING:sandbox/policy/linux/sandbox_linux.cc:415] InitializeSandbox() called with multiple threads in process gpu-process.
-[171216:171216:0728/180444.271270:INFO:CONSOLE:0] "Error with Permissions-Policy header: Unrecognized feature: 'bluetooth'.", source:  (0)
-[171216:171216:0728/180444.358350:INFO:CONSOLE:163] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yY/r/Vi0DxFNGUJS.js (163)
-[171216:171234:0728/180500.156523:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[51181:51181:0803/164127.080247:INFO:components/enterprise/browser/controller/chrome_browser_cloud_management_controller.cc:202] No machine level policy manager exists.
+[51222:51222:0803/164127.128142:WARNING:sandbox/policy/linux/sandbox_linux.cc:415] InitializeSandbox() called with multiple threads in process gpu-process.
+[51181:51181:0803/164128.983211:INFO:CONSOLE:0] "Error with Permissions-Policy header: Unrecognized feature: 'bluetooth'.", source:  (0)
+[51181:51181:0803/164129.067237:INFO:CONSOLE:163] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yP/r/oQNa3Ff_q72.js (163)
+[51181:51199:0803/164147.027310:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[51181:51181:0803/164154.173130:INFO:CONSOLE:289] "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently", source: https://static.whatsapp.net/rsrc.php/v4iknm4/yA/l/pt_BR-j/cESJXOpm64xux_Mn6YHiBtPyesZnsAgrgcmcgfZ2Brznq3Nj8ZVQldtkC6bHF_OqwshIWbqUAkJYZF0gU3_u2EY0qH1VV5yliYyIyDs2b_CcjsjClDZ9rJLBh1Ztx8X2t2Cm_EA3W_Lak_ZZ9IzwtgQT7valmVOZyPphvwAYxe6dXvD09LVLy5afHoi_t38JmoSrHF95kC2D3SaOKr1iHiY5jgsSJxyPkUk5pfdrS6F9Km-VoqA3zguu2xFsUYAJLFAwf-05.js (289)
+[51181:51199:0803/164214.317167:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
