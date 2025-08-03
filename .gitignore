@@ -1,1 +1,8 @@
 dados/
+chrome_profile/
+script.lock
+whatsapp.lock
+chrome-data
+__pycache__
+venv/
+..bfg-report
