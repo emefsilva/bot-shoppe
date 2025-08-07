@@ -1,104 +1,87 @@
+# fluxo.py
+
 import os
 import sys
 import time
 import subprocess
 import requests
-from filelock import FileLock, Timeout
+from datetime import datetime
 
-# === CONFIGURAÇÕES PRINCIPAIS ===
-TOTAL_CICLOS = 8  
-CICLO_COMPLETO = 3  
-ANUNCIOS_POR_CICLO = 6  
-INTERVALO_ENTRE_CICLOS = 3600
+# === CONFIGURAÇÕES ===
+API_URL = "http://localhost:8000"
+INTERVALO_ENTRE_ENVIOS_MINUTOS = 15
+ANUNCIOS_POR_LOTE_DE_ENVIO = 1
+QUANTIDADE_GERACAO_PAGINA = 1
+PORCENTAGEM_MINIMA_DESCONTO = 20
 
-# === CONFIGURAÇÕES TÉCNICAS ===
-TENTATIVAS_MAXIMAS = 5  
-TEMPO_ESPERA_FALHA = 60  
-LOCK_FILE = "/tmp/fluxo_bot.lock"
+PASTA_DADOS = "dados"
+FLAG_PREPARACAO_DIARIA = os.path.join(PASTA_DADOS, "preparacao_ok_{}.flag")
 
-def verificar_conexao():
+# === FUNÇÕES AUXILIARES ===
+def verificar_api():
+    print("🔍 Verificando status da API...")
     try:
-        requests.get("https://www.google.com", timeout=10)
+        response = requests.get(f"{API_URL}/api/status/geral", timeout=5)
+        response.raise_for_status()
+        print("✅ API está online.")
         return True
-    except requests.ConnectionError:
+    except requests.RequestException:
+        print("❌ API offline. Inicie o servidor em outro terminal com: uvicorn api:app --reload")
         return False
 
-def rodar_script(script, args=None):
-    comando = ["python3", script]
-    if args:
-        comando += args
-    
-    for tentativa in range(TENTATIVAS_MAXIMAS):
-        try:
-            print(f"▶️ Tentativa {tentativa + 1} de {TENTATIVAS_MAXIMAS}: Executando {' '.join(comando)}")
-            subprocess.run(comando, check=True)
-            return True
-        except subprocess.CalledProcessError as e:
-            print(f"❌ Falha na execução: {e}")
-            if tentativa < TENTATIVAS_MAXIMAS - 1:
-                print(f"🕒 Aguardando {TEMPO_ESPERA_FALHA} segundos antes de tentar novamente...")
-                time.sleep(TEMPO_ESPERA_FALHA)
-            else:
-                print("⚠️ Número máximo de tentativas alcançado. Continuando...")
-                return False
-    return True
+def chamar_coleta_diaria():
+    print("\n[PASSO 1 de 3] 📥 Acionando a coleta de produtos na API...")
+    try:
+        endpoint = f"{API_URL}/api/iniciar-coleta?ordenar_por=vendas"
+        #endpoint = f"{API_URL}/api/iniciar-coleta?paginas={QUANTIDADE_GERACAO_PAGINA}&desconto_minimo={PORCENTAGEM_MINIMA_DESCONTO}"
+        response = requests.post(endpoint, timeout=600)
+        response.raise_for_status()
+        print(f"✅ Coleta na API concluída: {response.json()}")
+        return True
+    except requests.RequestException as e:
+        print(f"❌ Falha ao acionar a coleta na API: {e}")
+        return False
 
-def instalar_requisitos():
-    arquivos = ["coletar_ofertas.py", "gerar_imagem.py", "whatsapp.py"]
-    for arquivo in arquivos:
-        if not os.path.exists(arquivo):
-            raise FileNotFoundError(f"Script não encontrado: {arquivo}")
+def rodar_script_externo(script_nome: str, args: list = None):
+    print(f"\n🚀 Executando '{script_nome}'...")
+    try:
+        comando = [sys.executable, script_nome]
+        if args: comando.extend(args)
+        subprocess.run(comando, check=True)
+        print(f"✅ Script '{script_nome}' executado.")
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"❌ Falha ao executar '{script_nome}': {e}")
+        return False
 
-def esperar_conexao():
-    while not verificar_conexao():
-        print("🌐 Sem conexão com a internet. Aguardando...")
-        time.sleep(TEMPO_ESPERA_FALHA * 2)
-
+# === FLUXO PRINCIPAL ===
 def main():
-    lock = FileLock(LOCK_FILE)
-    try:
-        lock.acquire(timeout=1)
-    except Timeout:
-        print("❌ O script já está rodando. Abortando.")
-        return
+    os.makedirs(PASTA_DADOS, exist_ok=True)
+    if not verificar_api(): sys.exit(1)
 
-    try:
-        instalar_requisitos()
+    hoje = datetime.now().strftime("%Y-%m-%d")
+    flag_arquivo_hoje = FLAG_PREPARACAO_DIARIA.format(hoje)
+
+    if not os.path.exists(flag_arquivo_hoje):
+        print(f"☀️ Bom dia! Iniciando a preparação para {hoje}.")
+        if not chamar_coleta_diaria(): sys.exit(1)
         
-        for ciclo in range(1, TOTAL_CICLOS + 1):
-            hora_atual = time.strftime("%H:%M")
-            print(f"\n=== Ciclo {ciclo}/{TOTAL_CICLOS} | Hora {hora_atual} ===")
-            
-            esperar_conexao()
+        print("\n[PASSO 2 de 3] 🖼️  Gerando imagens e textos...")
+        if not rodar_script_externo("gerar_imagem.py"): sys.exit(1)
+        
+        with open(flag_arquivo_hoje, 'w') as f: f.write("ok")
+        print("\n✅ Preparação diária concluída.")
+    else:
+        print(f"👍 Preparação para {hoje} já foi feita. Indo para os envios.")
 
-            if ciclo == 1 or ciclo % CICLO_COMPLETO == 0:
-                print("→ Coletando e gerando novas ofertas...")
-                qtd_anuncios_coleta = ANUNCIOS_POR_CICLO * CICLO_COMPLETO
-                
-                # Chamada do coletar_ofertas.py agora é simples e funcional
-                if not rodar_script("coletar_ofertas.py", [str(qtd_anuncios_coleta)]):
-                    print("⚠️ Falha na coleta de ofertas. Pulando para o próximo ciclo...")
-                    continue
-
-                if not rodar_script("gerar_imagem.py"):
-                    print("⚠️ Falha na geração de imagens. Pulando para o próximo ciclo...")
-                    continue
-
-            print("→ Enviando via WhatsApp...")
-            if not rodar_script("whatsapp.py", [str(ANUNCIOS_POR_CICLO)]):
-                print("⚠️ Falha no envio via WhatsApp. Continuando para o próximo ciclo...")
-
-            if ciclo < TOTAL_CICLOS:
-                print(f"🕒 Aguardando {INTERVALO_ENTRE_CICLOS // 60} minutos para o próximo ciclo...")
-                time.sleep(INTERVALO_ENTRE_CICLOS)
-
-        print("✅ Todos os ciclos concluídos.")
-
-    except Exception as e:
-        print(f"❌ Erro crítico: {str(e)}")
-    finally:
-        lock.release()
-        print("🔒 Lock liberado.")
+    print("\n[PASSO 3 de 3] 📲 Entrando no modo de envio contínuo...")
+    while True:
+        rodar_script_externo("whatsapp.py", [str(ANUNCIOS_POR_LOTE_DE_ENVIO)])
+        print(f"😴 Próximo envio em {INTERVALO_ENTRE_ENVIOS_MINUTOS} minutos...")
+        time.sleep(INTERVALO_ENTRE_ENVIOS_MINUTOS * 60)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n🛑 Fluxo interrompido pelo usuário. Até mais!")

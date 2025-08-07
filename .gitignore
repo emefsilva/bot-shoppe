@@ -4,5 +4,4 @@ script.lock
 whatsapp.lock
 chrome-data
 __pycache__
-venv/
-..bfg-report
+venv_bot/
