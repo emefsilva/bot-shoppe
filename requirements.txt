@@ -7,3 +7,4 @@ psutil
 filelock
 pyautogui
 Pillow
+sqlite3
